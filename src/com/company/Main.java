@@ -1,4 +1,5 @@
 package com.company;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,7 +8,121 @@ public class Main {
 
     public static void main(String[] args){
 
-        System.out.println("OK");
+        DLL<DLL<Integer>> listi = new DLL<>();
+
+        DLL<Integer> lista1 = new DLL<>();
+        DLL<Integer> lista2 = new DLL<>();
+
+        for(int i = 0; i < 4; i++){
+
+            lista1.insertLast(i);
+        }
+
+        for (int i = 10; i > 5; i--){
+
+            lista2.insertLast(i);
+        }
+
+        listi.insertLast(lista1);
+        listi.insertLast(lista2);
+
+        System.out.println(listaOdListi(listi));
+    }
+
+    public static int listaOdListi(DLL<DLL<Integer>> lista){
+
+        DLLNode<DLL<Integer>> tmp = lista.first;
+
+        int sum = 0;
+
+        while (tmp != null){
+
+            DLLNode<Integer> tmp1 = tmp.element.first;
+
+            int sum1 = 0;
+
+            while (tmp1 != null){
+
+                sum1 += tmp1.element;
+
+                tmp1 = tmp1.next;
+            }
+
+            sum += sum1;
+
+            tmp = tmp.next;
+        }
+
+        return sum;
+    }
+
+    public static void removeDuplicates(SLL<Integer> list){
+        SLLNode<Integer> tmp = list.getFirst();
+        SLLNode<Integer> tmp1 = null;
+
+        while (tmp.next != null){
+            tmp1 = tmp.next;
+            while (tmp1 != null) {
+                if (tmp.element == tmp1.element) {
+                    list.delete(tmp1);
+                }
+                tmp1 = tmp1.next;
+            }
+            tmp = tmp.next;
+        }
+
+    }
+
+    //    TODO: SORTIRANJE SO LINK SLL
+    public static void sortByLink(SLL<Integer> list){
+
+        SLLNode<Integer> tmp = list.getFirst();
+
+        SLLNode<Integer> tmp1 = null;
+
+        if(tmp == null) return; // DALI E PRAZNA
+
+        while (tmp.next != null){
+
+            tmp1 = tmp.next;
+
+            if(tmp.element > tmp.next.element){
+
+                tmp.next = tmp.next.next;
+                tmp1.next = list.getFirst();
+
+                list.setFirstNode(tmp1);
+                tmp = list.getFirst();
+            }
+            else {
+
+                tmp = tmp.next;
+            }
+
+        }
+    }
+
+    public static void sortPoElement(DLL<Integer> lista){
+
+        DLLNode<Integer> tmp1 = lista.first;
+        DLLNode<Integer> tmp2 = null;
+
+        while (tmp1.next != null){
+
+            tmp2 = tmp1.next;
+
+            while (tmp2 != null){
+
+                if(tmp1.element > tmp2.element){
+
+                    Integer tmp = tmp1.element;
+                    tmp1.element = tmp2.element;
+                    tmp2.element = tmp;
+                }
+                tmp2 = tmp2.next;
+            }
+            tmp1 = tmp1.next;
+        }
     }
 
     public static void IzbrisiNeparen(SLL<Integer> list){
@@ -16,7 +131,7 @@ public class Main {
 
         while (tmp != null){
             if(tmp.element % 2 != 0){
-                list.delete(tmp.element);
+                list.delete(tmp);
                 count++;
             }
             tmp = tmp.next;
@@ -61,6 +176,37 @@ public class Main {
 
         return rezultat;
 
+    }
+
+    public static int SumaNaNelementi(DLL<Integer>lista, int n, int m){
+        DLLNode<Integer> tmp = lista.first;
+        int suma = 0;
+        int brojac = 1;
+
+        while (tmp != null){
+            if(brojac >= n && brojac <=m){
+                suma += tmp.element;
+            }
+
+            brojac++;
+            tmp = tmp.next;
+        }
+       return suma;
+    }
+
+    public static DLL<Integer> BrisenjeNelement(DLL<Integer>lista, int n){
+        DLLNode<Integer> tmp = lista.first;
+        int pozicija = 1;
+
+        while (tmp != null) {
+            if(pozicija == n){
+                lista.delete(tmp);
+            }
+            pozicija++;
+            tmp = tmp.next;
+        }
+
+        return lista;
     }
 
     public static void podeliParnost(DLL<Integer> lista, DLL<Integer> lparni, DLL<Integer> lneparni) {

@@ -93,20 +93,20 @@ public class DLL<T> {
         }
     }
 
-    public void delete(T element){
+    public void delete(DLLNode<T> node){
 
         if(first == null) {         //AKO E PRAZNA LISTATA
 
             return;
         }
 
-        if(first.element == element){
+        if(first == node){
 
             first = first.next;
             first.prev = null;
         }
 
-        if(last.element == element){
+        if(last == node){
 
             last = last.prev;
             last.next = null;
@@ -116,7 +116,7 @@ public class DLL<T> {
 
         while (tmp != null){
 
-            if(tmp.element == element){
+            if(tmp == node){
 
                 tmp.next.prev = tmp.prev;
                 tmp.prev.next = tmp.next;

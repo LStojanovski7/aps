@@ -9,6 +9,11 @@ public class SLL<T> {
         this.first = null;
     }
 
+    public void setFirstNode(SLLNode<T> node){
+
+        this.first = node;
+    }
+
     public SLLNode<T> getFirst(){
 
         return this.first;
@@ -108,9 +113,9 @@ public class SLL<T> {
         }
     }
 
-    public void delete(T element){
+    public void delete(SLLNode<T> node){
 
-        if(first.element == element){
+        if(first == node){
 
             first = first.next;
             return;
@@ -120,7 +125,7 @@ public class SLL<T> {
 
         while (tmp != null){
 
-            if(tmp.next.element == element){
+            if(tmp.next == node){
 
                 tmp.next = tmp.next.next;
                 return;
@@ -164,16 +169,6 @@ public class SLL<T> {
 
     public void sort(){
 
-        SLLNode<T> tmp = first;
-
-        while (tmp != null){
-
-            SLLNode<T> tmp2 = tmp;
-
-            while (tmp2 != null){
-
-            }
-        }
     }
 
     public int length(){
@@ -247,5 +242,19 @@ public class SLL<T> {
 
         predN.next = M;
         N.next = posleM;
+    }
+
+    public int DaliIsti(SLL<T> lista){
+        SLLNode<T> tmp = first;
+        SLLNode<T> tmp1 = lista.getFirst();
+
+        while (tmp != null  && tmp1 != null){
+            if(tmp.element != tmp1.element){
+                return 0;
+            }
+            tmp = tmp.next;
+            tmp1 = tmp1.next;
+        }
+        return 1;
     }
 }
