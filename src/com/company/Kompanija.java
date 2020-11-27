@@ -30,20 +30,20 @@ class DLLVraboten {
         }
     }
 
-    public void delete(int id){
+    public void delete(DLLNodeVraboten node){
 
         if(first == null) {         //AKO E PRAZNA LISTATA
 
             return;
         }
 
-        if(first.id == id){
+        if(first == node){
 
             first = first.next;
             first.prev = null;
         }
 
-        if(last.id == id){
+        if(last == node){
 
             last = last.prev;
             last.next = null;
@@ -53,7 +53,7 @@ class DLLVraboten {
 
         while (tmp != null){
 
-            if(tmp.id == id){
+            if(tmp == node){
 
                 tmp.next.prev = tmp.prev;
                 tmp.prev.next = tmp.next;
@@ -77,24 +77,35 @@ class DLLVraboten {
         }
     }
 
-    public void deleteByPlata(int plata){
-
+    public void deletePomalaPlata(int plata){
         DLLNodeVraboten tmp = first;
-
         while (tmp != null){
-
             if(tmp.plata < plata){
-
-                delete(tmp.id);
+                delete(tmp);
             }
-
             tmp = tmp.next;
         }
+        sortVraboteniPoPlata();
     }
 
     public void sortVraboteniPoPlata(){
 
-//        TODO:
+        DLLNodeVraboten tmp1 = first;
+        DLLNodeVraboten tmp2 = null;
+        int tmp;
+
+        while (tmp1.next != null){
+            tmp2 = tmp1.next;
+            while (tmp2 != null){
+                if(tmp1.id <= tmp2.id) {
+                    tmp = tmp1.id;
+                    tmp1.id = tmp2.id;
+                    tmp2.id = tmp;
+                }
+            }
+            tmp2 = tmp2.next;
+        }
+        tmp1 = tmp1.next;
     }
 }
 

@@ -6,27 +6,152 @@ import java.io.InputStreamReader;
 
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
+        BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
-        DLL<DLL<Integer>> listi = new DLL<>();
+        String N = input.readLine();
+        int n = Integer.parseInt(N);
+
+
+        String M = input.readLine();
+        int m = Integer.parseInt(M);
+
+        N=input.readLine();
+        String[] niza1 = N.split(" ");
+//
+//        M=input.readLine();
+//        String[] niza2 = M.split(" ");
+
 
         DLL<Integer> lista1 = new DLL<>();
-        DLL<Integer> lista2 = new DLL<>();
+//        DLL<Integer> lista2 = new DLL<>();
 
-        for(int i = 0; i < 4; i++){
 
-            lista1.insertLast(i);
+        for(int i = 0; i < 8; i++){
+            lista1.insertLast(Integer.parseInt(niza1[i]));
+        }
+//        for(int i = 0; i<m; i++){
+//            lista2.insertLast(Integer.parseInt(niza2[i]));
+//        }
+
+        Sortiraj(lista1,1, 8);
+        System.out.println(lista1.toString());
+
+//        System.out.println(NovaLista(lista1,lista2).toString());
+
+//        DLLVraboten lista1 = new DLLVraboten();
+//        BufferedReader stdin = new BufferedReader(new InputStreamReader(
+//                System.in));
+//        String s = stdin.readLine();
+//        int N = Integer.parseInt(s);
+//
+//        for (int i = 0; i < N; i++) {
+//            s=stdin.readLine();
+//            String s1=stdin.readLine();
+//            lista1.insertLast(Integer.parseInt(s),Integer.parseInt(s1));
+//        }
+//        s = stdin.readLine();
+//
+//        lista1.deletePomalaPlata(Integer.parseInt(s));
+//
+//        lista1.print();
+
+    }
+
+
+
+    public static void Sortiraj(DLL<Integer> lista, int n, int m){
+        DLLNode<Integer> tmp1 = lista.first;
+        DLLNode<Integer> tmp2 = null;
+        DLLNode<Integer> tmpN = null;
+        DLLNode<Integer> tmpM = null;
+
+        int poz = 1;
+
+        while (tmp1 != null){
+            if(poz == n){
+                tmpN = tmp1;
+            }
+            if(poz == m){
+                tmpM = tmp1;
+            }
+
+            tmp1 = tmp1.next;
+            poz++;
         }
 
-        for (int i = 10; i > 5; i--){
+        while (tmpN != tmpM.next){
+            tmp2 = tmpN.next;
+            while (tmp2 != tmpM.next){
+                if(tmpN.element > tmp2.element) {
+                    Integer tmp = tmpN.element;
+                    tmpN.element = tmp2.element;
+                    tmp2.element = tmp;
+                }
+                tmp2 = tmp2.next;
+            }
+            tmpN = tmpN.next;
+        }
+    }
 
-            lista2.insertLast(i);
+    public static void Zadaca(DLL<Integer> lista, int n, int m){
+        DLLNode<Integer> tmp = lista.first;
+        int suma=0;
+        int pozicii = 0;
+
+        while (tmp != null){
+            if(pozicii >= n && pozicii <=m){
+                suma += tmp.element;
+            }
+            pozicii++;
+            tmp = tmp.next;
         }
 
-        listi.insertLast(lista1);
-        listi.insertLast(lista2);
+        pozicii = 0;
+        tmp= lista.first;
 
-        System.out.println(listaOdListi(listi));
+        while (tmp != null) {
+            if (pozicii % 2 != 0) {
+                tmp.element = suma;
+            }
+            pozicii++;
+            tmp = tmp.next;
+        }
+    }
+
+    public static DLL<Integer> NovaLista(DLL<Integer> lista1, DLL<Integer> lista2){
+        DLLNode<Integer> tmp1 = lista1.first;
+        DLLNode<Integer> tmp2 = lista2.first;
+        DLL<Integer> nova = new DLL<>();
+
+        while (tmp1 != null){
+            if(tmp1.element % 2 != 0){
+                nova.insertLast(tmp1.element);
+            }
+            tmp1 = tmp1.next;
+        }
+        while (tmp2 != null){
+            if(tmp2.element % 2 == 0){
+                nova.insertLast(tmp2.element);
+            }
+            tmp2 = tmp2.next;
+        }
+
+        tmp1 = nova.first;
+        while (tmp1.next != null) {
+            tmp2 = tmp1.next;
+            while (tmp2 != null) {
+                if (tmp1.element > tmp2.element) {
+                    Integer tmp = tmp1.element;
+                    tmp1.element = tmp2.element;
+                    tmp2.element = tmp;
+                }
+                tmp2 = tmp2.next;
+            }
+            tmp1 = tmp1.next;
+        }
+
+        return nova;
     }
 
     public static int listaOdListi(DLL<DLL<Integer>> lista){
@@ -72,6 +197,7 @@ public class Main {
         }
 
     }
+
 
     //    TODO: SORTIRANJE SO LINK SLL
     public static void sortByLink(SLL<Integer> list){
@@ -139,6 +265,75 @@ public class Main {
 
         System.out.println(list.toString());
         System.out.println(count);
+    }
+
+    public static DLL<Integer> PrevrtiParenNeparen(DLL<Integer> lista){
+        DLL<Integer> rezultat = new DLL<>();
+        DLLNode<Integer> tmp1 = lista.first;
+        DLLNode<Integer> tmp2 = lista.last;
+
+        while(tmp1 != null && tmp2 !=null) {
+            if(tmp1.element % 2 == 0){
+                rezultat.insertFirst(tmp1.element);
+            }
+
+            if(tmp2.element % 2 != 0){
+                rezultat.insertLast(tmp2.element);
+            }
+
+            tmp1 = tmp1.next;
+            tmp2 = tmp2.prev;
+        }
+        return rezultat;
+    }
+
+    public static DLL<Integer> SpoiListiParenNeparen(DLL<Integer> lista1, DLL<Integer> lista2){
+        DLL<Integer> rezultat = new DLL<>();
+        DLLNode<Integer> tmp1 = lista1.first;
+        DLLNode<Integer> tmp2 = lista2.last;
+
+        while(tmp1 != null && tmp2 != null){
+            if(tmp1.element % 2 == 0){
+                rezultat.insertLast(tmp1.element);
+            }
+            if(tmp2.element % 2 == 0){
+                rezultat.insertLast(tmp2.element);
+            }
+            tmp1 = tmp1.next;
+            tmp2 = tmp2.prev;
+        }
+        if(tmp1 != null) {
+            while (tmp1 != null) {
+                if (tmp1.element % 2 == 0) {
+                    rezultat.insertLast(tmp1.element);
+                }
+                tmp1 = tmp1.next;
+            }
+        }
+        if(tmp2 != null) {
+            while (tmp2 != null) {
+                if (tmp2.element % 2 == 0) {
+                    rezultat.insertLast(tmp2.element);
+                }
+                tmp2 = tmp2.prev;
+            }
+        }
+        tmp1 = lista1.first;
+        tmp2 = lista2.last;
+        while (tmp1 != null) {
+            if(tmp1.element % 2 != 0){
+                rezultat.insertLast(tmp1.element);
+            }
+            tmp1 = tmp1.next;
+        }
+        while (tmp2 != null) {
+            if(tmp2.element % 2 != 0){
+                rezultat.insertLast(tmp2.element);
+            }
+            tmp2 = tmp2.prev;
+        }
+
+        return rezultat;
     }
 
     public static DLL<Integer> podeli(DLL<Integer> lista1, DLL<Integer> lista2) {
@@ -382,4 +577,25 @@ public class Main {
 
         return list;
     }
+
+    public static void SortirajGOMNO(DLL<Integer> bubce){
+        DLLNode<Integer> tmp1 = bubce.first;
+        DLLNode<Integer> tmp2 = null;
+
+        while (tmp1 != null){
+            tmp2 = tmp1.next;
+            while (tmp2 != null){
+                if(tmp1.element > tmp2.element){
+                    Integer tmp = tmp1.element;
+                    tmp1.element = tmp2.element;
+                    tmp2.element = tmp;
+                }
+                tmp2 = tmp2.next;
+            }
+            tmp1 = tmp1.next;
+        }
+    }
+
+
+
 }

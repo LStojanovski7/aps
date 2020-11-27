@@ -74,6 +74,13 @@ public class DLL<T> {
         last.next = null;
     }
 
+    public void setFirst(DLLNode<T> node){
+        first = node;
+    }
+    public void setLast(DLLNode<T> node){
+        last = node;
+    }
+
     public void insertLast(T element){
 
         if(first == null){
